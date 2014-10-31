@@ -328,6 +328,19 @@ static void read_frame() {
 static Quat slerp(Quat src, Quat dest, float alpha);
 static Cvec3 lerp(Cvec3 src, Cvec3 dest, float alpha);
 
+
+/* Cvec3 bezierInterpolation(Cvec3 c1, Cvec3 c2, Cvec3, d, Cvec3 e) { */
+
+/* } */
+
+Cvec3 getDTrans(Cvec3 c_i_1, Cvec3 c_i_neg_1, Cvec3 c_i) {
+  return (c_i_1 - c_i_neg_1)/6 + c_i;
+}
+
+Cvec3 getETrans(Cvec3 c_i_2, Cvec3 c_i_1, Cvec3 c_i) {
+  return (c_i_2 - c_i)/-6 + c_i_1;
+}
+
 bool interpolateAndDisplay(float t) {
   list<vector<RigTForm> >::iterator it = key_frames.begin();
   advance(it, (int) t);
@@ -341,21 +354,21 @@ bool interpolateAndDisplay(float t) {
     return true;
   }
   vector<RigTForm> post_frame = *it;
+  // minus operator not overloaded for iterators. sad face.
   --it; --it; --it;
   vector<RigTForm> pre_frame = *it;
 
 
+  // d ci ci+1 e
   float alpha = t - (int) t;
   vector<RigTForm> frame;
   for (int i = 0; i < 22; ++i) {
-    Cvec3 t_1 = frame_1[i].getTranslation();
-    Cvec3 t_2 = frame_2[i].getTranslation();
-    Quat r_1 = frame_1[i].getRotation();
-    Quat r_2 = frame_2[i].getRotation();
-    Cvec3 t_i = lerp(t_1, t_2, alpha);
-    Quat r_i = slerp(r_1, r_2, alpha);
+    /* Cvec3 c_i = frame_1[i].getTranslation(); */
+    /* Cvec3 c_i2 = frame_2[i].getTranslation(); */
+    /* Cvec3 c_i2 = frame_2[i].getTranslation(); */
+    /* Cvec3 trans = bezierInterpolation() */
 
-    frame.push_back(RigTForm(t_i, r_i));
+    /* frame.push_back(RigTForm(t_i, r_i)); */
   }
   fillSgRbtNodes(g_world, frame);
   glutPostRedisplay();
