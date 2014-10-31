@@ -340,6 +340,9 @@ bool interpolateAndDisplay(float t) {
   if (it == key_frames.end()) {
     return true;
   }
+  vector<RigTForm> post_frame = *it;
+  --it; --it; --it;
+  vector<RigTForm> pre_frame = *it;
 
 
   float alpha = t - (int) t;
