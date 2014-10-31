@@ -401,9 +401,14 @@ bool interpolateAndDisplay(float t) {
     Cvec3 c_i_1 = frame_2[i].getTranslation();
     Cvec3 c_i_2 = post_frame[i].getTranslation();
 
-    Quat r = frame_1[i].getRotation();
+    Quat c_i_neg_1_r = pre_frame[i].getRotation();
+    Quat c_i_r = frame_1[i].getRotation();
+    Quat c_i_1_r = frame_2[i].getRotation();
+    Quat c_i_2_r = post_frame[i].getRotation();
+
     Cvec3 trans = bezierTrans(c_i_neg_1, c_i, c_i_1, c_i_2, (int) t, t);
-    frame.push_back(RigTForm(trans, r));
+    Quat rot = bezierRot(c_i_neg_1_r, c_i_r, c_i_1_r, c_i_2_r, (int) t, t);
+    frame.push_back(RigTForm(trans, rot));
   }
   fillSgRbtNodes(g_world, frame);
   glutPostRedisplay();
