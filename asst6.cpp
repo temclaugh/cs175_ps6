@@ -349,6 +349,7 @@ Cvec3 bezierTrans(Cvec3 c_i_neg_1, Cvec3 c_i, Cvec3 c_i_1, Cvec3 c_i_2, int i, f
   Cvec3 h = e*(1 - t + i) + c_i_1*(t - i);
   Cvec3 m = f*(1 - t + i) + g*(t - i);
   Cvec3 n = g*(1 - t + i) + h*(t - i);
+
   return m*(1 - t + i) + n*(t - i);
 }
 
@@ -371,7 +372,7 @@ Quat bezierRot(Quat c_i_neg_1, Quat c_i, Quat c_i_1, Quat c_i_2, int i, float t)
   Quat m = qpow(cond_neg(f), 1 - t + i) * qpow(cond_neg(g), t - i);
   Quat n = qpow(cond_neg(g), 1 - t + i) * qpow(cond_neg(h), t - i);
 
-  return qpow(cond_neg(m), 1 - t + i) + qpow(cond_neg(n), t - i);
+  return qpow(cond_neg(m), 1 - t + i) * qpow(cond_neg(n), t - i);
 }
 
 bool interpolateAndDisplay(float t) {
