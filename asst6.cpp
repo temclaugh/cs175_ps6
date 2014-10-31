@@ -371,7 +371,7 @@ Quat bezierRot(Quat c_i_neg_1, Quat c_i, Quat c_i_1, Quat c_i_2, int i, float t)
   Quat m = qpow(cond_neg(f), 1 - t + i) * qpow(cond_neg(g), t - i);
   Quat n = qpow(cond_neg(g), 1 - t + i) * qpow(cond_neg(h), t - i);
 
-  return qpow(cond_neg(m), 1 - t + i) + qpow(cond_neg(n), t - i);
+  return qpow(cond_neg(m), 1 - t + i) * qpow(cond_neg(n), t - i);
 }
 
 bool interpolateAndDisplay(float t) {
