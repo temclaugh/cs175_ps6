@@ -327,7 +327,8 @@ static void read_frame() {
 
 static Quat slerp(Quat src, Quat dest, float alpha);
 static Cvec3 lerp(Cvec3 src, Cvec3 dest, float alpha);
-
+static Quat cond_neg(Quat q);
+static Quat qpow(Quat q, float alpha);
 
 /* Cvec3 bezierInterpolation(Cvec3 c1, Cvec3 c2, Cvec3, d, Cvec3 e) { */
 
@@ -339,6 +340,14 @@ Cvec3 getDTrans(Cvec3 c_i_1, Cvec3 c_i_neg_1, Cvec3 c_i) {
 
 Cvec3 getETrans(Cvec3 c_i_2, Cvec3 c_i_1, Cvec3 c_i) {
   return (c_i_2 - c_i)/-6 + c_i_1;
+}
+
+Quat getDRot(Quat c_i_1, Quat c_i_neg_1, Quat c_i) {
+  return qpow(cond_neg(c_i_1 * inv(c_i_neg_1)), 1.0/6.0) * c_i;
+}
+
+Quat getERot(Quat c_i_2, Quat c_i_1, Quat c_i) {
+  return qpow(cond_neg(c_i_2 * inv(c_i)), -1.0/6.0) * c_i_1;
 }
 
 bool interpolateAndDisplay(float t) {
