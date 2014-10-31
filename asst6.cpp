@@ -357,7 +357,6 @@ bool interpolateAndDisplay(float t) {
   fillSgRbtNodes(g_world, frame);
   glutPostRedisplay();
 
- // printf("animating... time: %f, alpha: %f\n", t, alpha);
   return false;
 }
 
