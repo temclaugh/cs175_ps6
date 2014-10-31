@@ -329,9 +329,12 @@ static Quat slerp(Quat src, Quat dest, float alpha);
 static Cvec3 lerp(Cvec3 src, Cvec3 dest, float alpha);
 
 
-/* Cvec3 bezierInterpolation(Cvec3 c1, Cvec3 c2, Cvec3, d, Cvec3 e) { */
-
-/* } */
+Cvec3 bezierInterpolation(Cvec3 c, Cvec3 c_1, Cvec3 d, Cvec3 e, float t) {
+  int i = (int) t;
+  for (int i = 0; i < 3; ++i) {
+  }
+  return c_i;
+}
 
 Cvec3 getDTrans(Cvec3 c_i_1, Cvec3 c_i_neg_1, Cvec3 c_i) {
   return (c_i_1 - c_i_neg_1)/6 + c_i;
@@ -363,12 +366,16 @@ bool interpolateAndDisplay(float t) {
   float alpha = t - (int) t;
   vector<RigTForm> frame;
   for (int i = 0; i < 22; ++i) {
-    /* Cvec3 c_i = frame_1[i].getTranslation(); */
-    /* Cvec3 c_i2 = frame_2[i].getTranslation(); */
-    /* Cvec3 c_i2 = frame_2[i].getTranslation(); */
-    /* Cvec3 trans = bezierInterpolation() */
+    Cvec3 c_i_neg_1 = pre_frame[i].getTranslation();
+    Cvec3 c_i = frame_1[i].getTranslation();
+    Cvec3 c_i_1 = frame_2[i].getTranslation();
+    Cvec3 c_i_2 = post_frame[i].getTranslation();
+    Cvec3 d_i = getDTrans(c_i_1, c_i_neg_1, c_i);
+    Cvec3 e_i = getETrans(c_i_2, c_i_1, c_i);
 
-    /* frame.push_back(RigTForm(t_i, r_i)); */
+    Quat r = frame_1[i].getRotation();
+    Cvec3 trans = bezierInterpolation(c_i, c_i_1, d_i, e_i, t);
+    frame.push_back(RigTForm(trans, r));
   }
   fillSgRbtNodes(g_world, frame);
   glutPostRedisplay();
